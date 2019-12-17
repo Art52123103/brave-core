@@ -15,9 +15,9 @@ namespace ads {
 
 struct ADS_EXPORT AdConversionInfo {
   AdConversionInfo();
+  ~AdConversionInfo();
   AdConversionInfo(
       const AdConversionInfo& info);
-  ~AdConversionInfo();
 
   std::string ToJson() const;
   Result FromJson(

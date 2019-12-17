@@ -9,17 +9,12 @@
 
 namespace ads {
 
-AdConversionInfo::AdConversionInfo() :
-    observation_window(0) {}
-
-AdConversionInfo::AdConversionInfo(
-    const AdConversionInfo& info)
-    : creative_set_id(info.creative_set_id),
-      type(info.type),
-      url_pattern(info.url_pattern),
-      observation_window(info.observation_window) {}
+AdConversionInfo::AdConversionInfo() = default;
 
 AdConversionInfo::~AdConversionInfo() = default;
+
+AdConversionInfo::AdConversionInfo(
+    const AdConversionInfo& info) = default;
 
 std::string AdConversionInfo::ToJson() const {
   std::string json;
