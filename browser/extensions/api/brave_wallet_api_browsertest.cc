@@ -164,9 +164,10 @@ IN_PROC_BROWSER_TEST_F(BraveWalletAPIBrowserTest, DappDetectionTestAccept) {
   EXPECT_TRUE(
       NavigateToURLUntilLoadStop("a.com", "/dapp.html"));
   WaitForCryptoWalletsInfobarAdded();
-  // Pref for Wallet should still be enabled
-  ASSERT_TRUE(
-      browser()->profile()->GetPrefs()->GetBoolean(kBraveWalletEnabled));
+  // Pref for Wallet should still be ask by default
+  auto provider =
+      browser()->profile()->GetPrefs()->GetInteger(kBraveWalletWeb3Provider);
+  ASSERT_EQ(provider, BraveWalletWeb3ProviderTypes::ASK);
   CryptoWalletsInfoBarAccept(ConfirmInfoBarDelegate::BUTTON_OK);
   WaitForTabCount(2);
   RemoveInfoBarObserver(infobar_service);
@@ -200,9 +201,9 @@ IN_PROC_BROWSER_TEST_F(BraveWalletAPIBrowserTest,
   WaitForCryptoWalletsInfobarAdded();
   CryptoWalletsInfoBarCancel(ConfirmInfoBarDelegate::BUTTON_OK |
       ConfirmInfoBarDelegate::BUTTON_CANCEL);
-  // Pref for Wallet should not be enabled
-  ASSERT_FALSE(
-      browser()->profile()->GetPrefs()->GetBoolean(kBraveWalletEnabled));
+  auto provider =
+      browser()->profile()->GetPrefs()->GetInteger(kBraveWalletWeb3Provider);
+  ASSERT_EQ(provider, BraveWalletWeb3ProviderTypes::METAMASK);
   RemoveInfoBarObserver(infobar_service);
 }
 

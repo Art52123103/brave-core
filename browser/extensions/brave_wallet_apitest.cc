@@ -92,8 +92,35 @@ IN_PROC_BROWSER_TEST_F(BraveWalletExtensionApiTest,
 }
 
 IN_PROC_BROWSER_TEST_F(BraveWalletExtensionApiTest,
-    BraveShieldsNoDappDetectionWhenNotEnabled) {
-  GetPrefs()->SetBoolean(kBraveWalletEnabled, false);
+    BraveShieldsNoDappDetectionWhenNone) {
+  GetPrefs()->SetInteger(kBraveWalletWeb3Provider,
+                         BraveWalletWeb3ProviderTypes::NONE);
+  ResultCatcher catcher;
+  const Extension* extension =
+    LoadExtension(extension_dir_.AppendASCII("braveShieldsWithWallet"));
+  ASSERT_TRUE(browsertest_util::ExecuteScriptInBackgroundPageNoWait(
+      browser()->profile(), brave_extension_id, "testNotEnabled()"));
+  ASSERT_TRUE(extension);
+  ASSERT_TRUE(catcher.GetNextResult()) << message_;
+}
+
+IN_PROC_BROWSER_TEST_F(BraveWalletExtensionApiTest,
+    BraveShieldsNoDappDetectionWhenCryptoWallets) {
+  GetPrefs()->SetInteger(kBraveWalletWeb3Provider,
+                         BraveWalletWeb3ProviderTypes::CRYPTO_WALLETS);
+  ResultCatcher catcher;
+  const Extension* extension =
+    LoadExtension(extension_dir_.AppendASCII("braveShieldsWithWallet"));
+  ASSERT_TRUE(browsertest_util::ExecuteScriptInBackgroundPageNoWait(
+      browser()->profile(), brave_extension_id, "testNotEnabled()"));
+  ASSERT_TRUE(extension);
+  ASSERT_TRUE(catcher.GetNextResult()) << message_;
+}
+
+IN_PROC_BROWSER_TEST_F(BraveWalletExtensionApiTest,
+    BraveShieldsNoDappDetectionWhenMetaMask) {
+  GetPrefs()->SetInteger(kBraveWalletWeb3Provider,
+                         BraveWalletWeb3ProviderTypes::METAMASK);
   ResultCatcher catcher;
   const Extension* extension =
     LoadExtension(extension_dir_.AppendASCII("braveShieldsWithWallet"));
