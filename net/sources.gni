@@ -6,4 +6,6 @@
 brave_net_sources = [
   "//brave/net/proxy_resolution/proxy_config_service_tor.cc",
   "//brave/net/proxy_resolution/proxy_config_service_tor.h",
+  "//brave/net/system_request_handler.cc",
+  "//brave/net/system_request_handler.h",
 ]

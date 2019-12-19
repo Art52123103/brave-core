@@ -26,7 +26,8 @@ std::string BraveServicesKeyForTesting() {
   return BRAVE_SERVICES_KEY;
 }
 
-void AddBraveServicesKeyHeader(network::ResourceRequest* url_request) {
+void AddBraveServicesKeyHeader(
+    std::shared_ptr<network::ResourceRequest> url_request) {
   static URLPattern proxy_pattern(URLPattern::SCHEME_HTTPS,
                                   kBraveProxyPattern);
   if (proxy_pattern.MatchesURL(url_request->url)) {
@@ -36,21 +37,20 @@ void AddBraveServicesKeyHeader(network::ResourceRequest* url_request) {
   return;
 }
 
-network::ResourceRequest OnBeforeSystemRequest(
-    const network::ResourceRequest& url_request) {
+std::shared_ptr<network::ResourceRequest> OnBeforeSystemRequest(
+    std::shared_ptr<network::ResourceRequest> url_request) {
   GURL new_url;
-  brave::OnBeforeURLRequest_BlockSafeBrowsingReportingURLs(url_request.url,
+  brave::OnBeforeURLRequest_BlockSafeBrowsingReportingURLs(url_request->url,
                                                            &new_url);
-  brave::OnBeforeURLRequest_StaticRedirectWorkForGURL(url_request.url,
+  brave::OnBeforeURLRequest_StaticRedirectWorkForGURL(url_request->url,
                                                       &new_url);
-  brave::OnBeforeURLRequest_CommonStaticRedirectWorkForGURL(url_request.url,
+  brave::OnBeforeURLRequest_CommonStaticRedirectWorkForGURL(url_request->url,
                                                             &new_url);
-  network::ResourceRequest patched_request = url_request;
   if (!new_url.is_empty()) {
-    patched_request.url = new_url;
+    url_request->url = new_url;
   }
-  AddBraveServicesKeyHeader(&patched_request);
-  return patched_request;
+  AddBraveServicesKeyHeader(url_request);
+  return url_request;
 }
 
 }  // namespace brave
