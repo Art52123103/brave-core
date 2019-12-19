@@ -6,6 +6,7 @@
 #ifndef BRAVE_BROWSER_NET_BRAVE_SYSTEM_REQUEST_HANDLER_H_
 #define BRAVE_BROWSER_NET_BRAVE_SYSTEM_REQUEST_HANDLER_H_
 
+#include <memory>
 #include <string>
 
 namespace network {
