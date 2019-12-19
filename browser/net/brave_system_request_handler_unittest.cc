@@ -14,23 +14,25 @@ namespace brave {
 
 TEST(BraveSystemRequestHandlerTest, AddBraveServiceKeyHeader) {
     GURL url("https://demo.brave.com");
-    network::ResourceRequest request;
+    std::shared_ptr<network::ResourceRequest>
+        request(new network::ResourceRequest());
 
-    request.url = url;
-    brave::AddBraveServicesKeyHeader(&request);
+    request->url = url;
+    brave::AddBraveServicesKeyHeader(request);
     std::string key;
-    EXPECT_TRUE(request.headers.GetHeader(kBraveServicesKeyHeader, &key));
+    EXPECT_TRUE(request->headers.GetHeader(kBraveServicesKeyHeader, &key));
     EXPECT_EQ(key, BraveServicesKeyForTesting());
 }
 
 TEST(BraveSystemRequestHandlerTest, DontAddBraveServiceKeyHeader) {
     GURL url("https://demo.example.com");
-    network::ResourceRequest request;
+    std::shared_ptr<network::ResourceRequest>
+        request(new network::ResourceRequest());
 
-    request.url = url;
-    brave::AddBraveServicesKeyHeader(&request);
+    request->url = url;
+    brave::AddBraveServicesKeyHeader(request);
     std::string key;
-    EXPECT_FALSE(request.headers.GetHeader(kBraveServicesKeyHeader, &key));
+    EXPECT_FALSE(request->headers.GetHeader(kBraveServicesKeyHeader, &key));
 }
 
 }  // namespace brave
