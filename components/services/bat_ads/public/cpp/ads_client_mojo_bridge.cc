@@ -56,6 +56,20 @@ void AdsClientMojoBridge::IsEnabled(IsEnabledCallback callback) {
   std::move(callback).Run(ads_client_->IsEnabled());
 }
 
+bool AdsClientMojoBridge::ShouldOptOutOfAdConversions(bool* should_opt_out) {
+  if (!should_opt_out) {
+    return false;
+  }
+
+  *should_opt_out = ads_client_->ShouldOptOutOfAdConversions();
+  return true;
+}
+
+void AdsClientMojoBridge::ShouldOptOutOfAdConversions(
+    ShouldOptOutOfAdConversionsCallback callback) {
+  std::move(callback).Run(ads_client_->ShouldOptOutOfAdConversions());
+}
+
 bool AdsClientMojoBridge::IsForeground(bool* is_foreground) {
   *is_foreground = ads_client_->IsForeground();
   return true;
@@ -397,6 +411,11 @@ void AdsClientMojoBridge::OnGetAdConversions(
     const ads::Result result,
     const std::string& url,
     const std::vector<ads::AdConversionInfo>& ad_conversions) {
+  DCHECK(holder);
+  if (!holder) {
+    return;
+  }
+
   if (holder->is_valid()) {
     std::vector<std::string> ad_conversions_json_list;
     for (const auto& ad_conversion : ad_conversions) {
