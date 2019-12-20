@@ -13,26 +13,26 @@
 namespace brave {
 
 TEST(BraveSystemRequestHandlerTest, AddBraveServiceKeyHeader) {
-    GURL url("https://demo.brave.com");
-    std::shared_ptr<network::ResourceRequest>
-        request(new network::ResourceRequest());
+  GURL url("https://demo.brave.com");
+  std::shared_ptr<network::ResourceRequest> request(
+      new network::ResourceRequest());
 
-    request->url = url;
-    brave::AddBraveServicesKeyHeader(request);
-    std::string key;
-    EXPECT_TRUE(request->headers.GetHeader(kBraveServicesKeyHeader, &key));
-    EXPECT_EQ(key, BraveServicesKeyForTesting());
+  request->url = url;
+  brave::AddBraveServicesKeyHeader(request);
+  std::string key;
+  EXPECT_TRUE(request->headers.GetHeader(kBraveServicesKeyHeader, &key));
+  EXPECT_EQ(key, BraveServicesKeyForTesting());
 }
 
 TEST(BraveSystemRequestHandlerTest, DontAddBraveServiceKeyHeader) {
-    GURL url("https://demo.example.com");
-    std::shared_ptr<network::ResourceRequest>
-        request(new network::ResourceRequest());
+  GURL url("https://demo.example.com");
+  std::shared_ptr<network::ResourceRequest> request(
+      new network::ResourceRequest());
 
-    request->url = url;
-    brave::AddBraveServicesKeyHeader(request);
-    std::string key;
-    EXPECT_FALSE(request->headers.GetHeader(kBraveServicesKeyHeader, &key));
+  request->url = url;
+  brave::AddBraveServicesKeyHeader(request);
+  std::string key;
+  EXPECT_FALSE(request->headers.GetHeader(kBraveServicesKeyHeader, &key));
 }
 
 }  // namespace brave

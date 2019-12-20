@@ -42,10 +42,9 @@ void RecordInitialP3AValues() {
 // Initializes callback for SystemRequestHandler
 void InitSystemRequestHandlerCallback() {
   net::SystemRequestHandler::OnBeforeSystemRequestCallback
-      before_system_request_callback =
-      base::Bind(brave::OnBeforeSystemRequest);
-  net::SystemRequestHandler::GetInstance()->
-      RegisterOnBeforeSystemRequestCallback(before_system_request_callback);
+      before_system_request_callback = base::Bind(brave::OnBeforeSystemRequest);
+  net::SystemRequestHandler::GetInstance()
+      ->RegisterOnBeforeSystemRequestCallback(before_system_request_callback);
 }
 
 }  // namespace

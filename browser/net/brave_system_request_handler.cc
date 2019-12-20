@@ -28,11 +28,10 @@ std::string BraveServicesKeyForTesting() {
 
 void AddBraveServicesKeyHeader(
     std::shared_ptr<network::ResourceRequest> url_request) {
-  static URLPattern proxy_pattern(URLPattern::SCHEME_HTTPS,
-                                  kBraveProxyPattern);
+  static URLPattern proxy_pattern(URLPattern::SCHEME_HTTPS, kBraveProxyPattern);
   if (proxy_pattern.MatchesURL(url_request->url)) {
-      url_request->headers.SetHeaderIfMissing(kBraveServicesKeyHeader,
-                                              BRAVE_SERVICES_KEY);
+    url_request->headers.SetHeaderIfMissing(kBraveServicesKeyHeader,
+                                            BRAVE_SERVICES_KEY);
   }
   return;
 }

@@ -19,7 +19,7 @@ void SystemRequestHandler::RegisterOnBeforeSystemRequestCallback(
 }
 
 std::shared_ptr<network::ResourceRequest>
-    SystemRequestHandler::OnBeforeSystemRequest(
+SystemRequestHandler::OnBeforeSystemRequest(
     std::shared_ptr<network::ResourceRequest> url_request) {
   if (!on_before_system_request_callback_) {
     NOTREACHED();

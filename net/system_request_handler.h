@@ -13,7 +13,7 @@
 
 namespace network {
 struct ResourceRequest;
-}  // network
+}  // namespace network
 
 namespace base {
 template <typename T>
@@ -24,8 +24,8 @@ namespace net {
 
 class NET_EXPORT SystemRequestHandler {
  public:
-  typedef base::Callback<std::shared_ptr<network::ResourceRequest>
-      (std::shared_ptr<network::ResourceRequest>)>
+  typedef base::Callback<std::shared_ptr<network::ResourceRequest>(
+      std::shared_ptr<network::ResourceRequest>)>
       OnBeforeSystemRequestCallback;
 
   // Returns the instance of SystemRequestHandler.
